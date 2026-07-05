@@ -1,4 +1,4 @@
-name: ImmortalWrt Builder 
+name: ImmortalWrt CR660x 
 
 on:
   repository_dispatch:
