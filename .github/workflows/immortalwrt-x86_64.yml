@@ -123,9 +123,31 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
+    # 新增以下步骤：为智能 UI 插件环境搭建 Rust 依赖环境
+    - name: Setup Rust and Target
+      run: |
+        # 激活宿主机的 Rust 环境环境变量
+        if [ -f "$HOME/.cargo/env" ]; then
+          source "$HOME/.cargo/env"
+        fi
+        
+        # 如果宿主机没装 rustup，则全新安装
+        if ! command -v rustup &> /dev/null; then
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          source "$HOME/.cargo/env"
+        fi
+        
+        # 专门添加编译 smartdns-ui 必须的 musl x86_64 交叉目标平台
+        rustup target add x86_64-unknown-linux-musl
+
     - name: Compile the firmware
       id: compile
       run: |
+        # 确保在当前 shell 中加载 Rust 环境变量路径
+        if [ -f "$HOME/.cargo/env" ]; then
+          source "$HOME/.cargo/env"
+        fi
+        
         cd openwrt
         echo -e "$(nproc) thread compile"
         # 编译前再次清理临时文件
