@@ -19,6 +19,3 @@
 # Modify hostname
 # sed -i 's/OpenWrt/P3TERX-Router/g' package/base-files/files/bin/config_generate
 # sed -i '/CYXluq4wUazHjmCDBCqXF/d' package/lean/default-settings/files/zzz-default-settings
-rm -rf feeds/packages/utils/taskd
-rm -rf feeds/luci/applications/luci-app-store
-rm -rf feeds/luci/applications/luci-app-access-control
